@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <link href="/static/css/dashboardstyles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="mySidenav" class="sidenav">
+        <div class="menu">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="title_section">
+                <div class="title">
+                    <div class="title_div">
+                        <div class="logo">
+                            <image src="/static/images/nbalogo.png" class="website_logo_img"></image>
+                        </div>
+                        <div class="logo_title">
+                            <h1>NBA</h1>
+                        </div>
+                    </div>
+                    <div class="title_div"><h2>Players Dashboard</h2></div>
+                </div>
+            </div>
+            <div class="division_section">
+                <div class="division_list_container">
+                    <div class="division_list">
+                        <div class="division_column">
+                            <div class="division_column_conference"><h3>Eastern</h3></div>
+                            <div class="division">
+                                <button class="division_button"><h3>Atlantic</h3></button>
+                            </div>
+                            <div class="division">
+                                <button class="division_button"><h3>Central</h3></button>
+                            </div>
+                            <div class="division">
+                                <button class="division_button"><h3>South</h3></button>
+                            </div>
+                        </div>
+                        <div class="division_column">
+                            <div class="division_column_conference"><h3>Western</h3></div>
+                            <div class="division">
+                                <button class="division_button"><h3>North West</h3></button>
+                            </div>
+                            <div class="division">
+                                <button class="division_button"><h3>Pacific</h3></button>
+                            </div>
+                            <div class="division">
+                                <button class="division_button"><h3>South West</h3></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all_container">
+                        <div class="division_wide">
+                            <button class="division_button"><h3>ALL</h3></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="team_list_container">
+                    <input type="text" name="team_search" class="team_search_bar uppercase" placeholder="SEARCH">
+                    <div class="team_list">
+                        <ul id="team_container" class="team_container">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="dashboard">
+        <div class="nav_bar">
+            <div class="nav_left">
+                <div class="menu_button_container">
+                    <button onclick="openNav()" class="menu_button">
+                        <div class="menu_block"></div>
+                        <div class="menu_block"></div>
+                        <div class="menu_block"></div>
+                    </button>
+                </div>
+                <div class="dashboard_text"><h2>Los Angeles Lakers</h2></div>
+            </div>
+            
+            <div class="profile">
+                <div class="username"><h2>{{.User}}</h2></div>
+                <div class="profile_photo_container">
+                    <image class="profile_photo" src="{{.ProfilePhoto}}"></image>
+                </div>
+                <div class="logout_button_container">
+                    <form method="GET" action="/logout/">
+                        <button class="logout_button" type="submit">
+                            <image src="/static/images/logout.png" class="logout_button_img"></image>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="filter_bar">
+            <div class="filter_dropdown_container">
+                    <div class="filter_title bolder uppercase">FILTER</div>
+                    <div class="filter_dropdown">
+                        <div class="dropdown">
+                            <button onclick="filter_dropdownFunction()" class="dropdown_button">Dropdown</button>
+                            <div id="dropdown_content" class="dropdown_content">
+                              <a href="#">PPG</a>
+                              <a href="#">RPG</a>
+                              <a href="#">APG</a>
+                              <a href="#">PIE</a>
+                              <a href="#">Age</a>
+                              <a href="#">Experience</a>
+                              <a href="#">Height</a>
+                              <a href="#">Weight</a>
+                            </div>
+                          </div>
+                    </div>
+            </div>
+            <div class="player_search_bar_container">
+                <input type="text" name="player_search" class="player_search_bar uppercase" placeholder="SEARCH">
+            </div>
+        </div>
+        <div class="card_list_container">
+            <div class="card_grid" id="cardGrid">
+                
+            </div>
+        </div>
+    </div>
+    
+  </body>
+  <script src="/static/js/dashboard.js"></script>
+  <script>
+    function filterTeamsByDivision(division) {
+        var teamItems = document.querySelectorAll('.team_item');
+        teamItems.forEach(function(item) {
+            var teamName = item.querySelector('.team_item_button h4').textContent.toUpperCase();
+            if (division === "ALL" || teamName.includes(division.toUpperCase())) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+
+    document.querySelectorAll('.division_button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var division = button.querySelector('h3').textContent;
+            filterTeamsByDivision(division);
+        });
+    });
+
+    function displayCards(c) {
+        var cardGrid = document.getElementById('cardGrid');
+        
+        for (var i = 0; i < c; i++) {
+            
+
+            var playerName = {{.PlayerNames}}[i];
+            var playerPhoto = {{.PlayerPhoto}}[i];
+            var playerPPG = {{.PlayerPPG}}[i];
+            var playerRPG = {{.PlayerRPG}}[i];
+            var playerAPG = {{.PlayerAPG}}[i];
+            var playerPIE = {{.PlayerPIE}}[i];
+            var playerBirthdate = {{.PlayerBirthdateFormatted}}[i];
+            var playerAge = {{.PlayerAge}}[i];
+            var playerExperience = {{.PlayerExperience}}[i];
+            var playerHeight = {{.PlayerHeight}}[i];
+            var playerWeight = {{.PlayerWeight}}[i];
+            var playerCountry = {{.PlayerCountry}}[i];
+            var playerLogo = {{.PlayerLogo}}[i];
+            var playerPrimary = {{.PlayerPrimary}}[i];
+            var playerSecondary = {{.PlayerSecondary}}[i];
+
+            // Create a random card structure
+            var cardStructure = `
+                <div class="card">
+                    <div class="content">
+                        <div class="card_front">
+                            <div class="inner_card">
+                                <div class="card_background_container">
+                                    <image src="/static/images/court.jpg" class="background_image"></image>
+                                </div>
+                                <div class="card_header">
+                                    <div class="card_name_container">
+                                        <div class="card_name">
+                                            <div class="triangle"></div>
+                                            <h4>${playerName}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="card_team_container">
+                                        <div class="card_team">
+                                            <image src="${playerLogo}" class="team_logo"></image>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card_image_container">
+                                    
+                                    <div class="card_player_container">
+                                        <image src="${playerPhoto}" class="player_image"></image>
+                                    </div>
+                                    <div class="card_stats_container">
+                                        <div class="card_stats">
+                                            <div class="card_stats_title"><h5>PPG</h5></div>
+                                            <div class="card_stats_value"><h4>${playerPPG}</h4></div>
+                                        </div>
+                                        <div class="card_stats">
+                                            <div class="card_stats_title"><h5>RPG</h5></div>
+                                            <div class="card_stats_value"><h4>${playerRPG}</h4></div>
+                                        </div>
+                                        <div class="card_stats">
+                                            <div class="card_stats_title"><h5>APG</h5></div>
+                                            <div class="card_stats_value"><h4>${playerAPG}</h4></div>
+                                        </div>
+                                        <div class="card_stats">
+                                            <div class="card_stats_title"><h5>PIE</h5></div>
+                                            <div class="card_stats_value"><h4>${playerPIE}</h4></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card_body">
+                                    <div class="card_body_row">
+                                        <div class="card_info">
+                                            <div class="card_info_title"><h5>Birthdate</h5></div>
+                                            <div class="card_info_value"><h4>${playerBirthdate}</h4></div>
+                                        </div>
+                                        <div class="card_info">
+                                            <div class="card_info_title"><h5>Age</h5></div>
+                                            <div class="card_info_value"><h4>${playerAge} yrs</h4></div>
+                                        </div>
+                                        <div class="card_info">
+                                            <div class="card_info_title"><h5>Experience</h5></div>
+                                            <div class="card_info_value"><h4>${playerExperience} yrs</h4></div>
+                                        </div>
+                                    </div>
+                                    <div class="card_body_row">
+                                        <div class="card_info">
+                                            <div class="card_info_title"><h5>Height</h5></div>
+                                            <div class="card_info_value"><h4>${playerHeight} m</h4></div>
+                                        </div>
+                                        <div class="card_info">
+                                            <div class="card_info_title"><h5>Weight</h5></div>
+                                            <div class="card_info_value"><h4>${playerWeight} kg</h4></div>
+                                        </div>
+                                        <div class="card_info">
+                                            <div class="card_info_title"><h5>Country</h5></div>
+                                            <div class="card_info_value"><h4>${playerCountry}</h4></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card_back">
+                            <image src="/static/images/card_back.png" class="card_back_img"></image>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            var cardContainer = document.createElement('div');
+            cardContainer.classList.add('card_container');
+            cardContainer.innerHTML = cardStructure;
+
+            // Set background color dynamically for each card
+            var cardNameElement = cardContainer.querySelector('.card_name');    
+            cardNameElement.style.backgroundColor = playerPrimary;
+            cardNameElement.style.color = playerSecondary;
+
+            var cardStatsElements = cardContainer.querySelectorAll('.card_stats');
+            cardStatsElements.forEach(function(cardStatsElement) {
+                cardStatsElement.style.background = 'radial-gradient(' + playerPrimary + ' 0%, black 60%)';
+                cardStatsElement.style.color = playerSecondary; 
+            });
+
+            var cardBodyElement = cardContainer.querySelector('.card_body');
+            cardBodyElement.style.background = 'radial-gradient(' + playerPrimary + ' -20%, black 75%)';
+            
+            var cardInfoElements = cardContainer.querySelectorAll('.card_info');
+            cardInfoElements.forEach(function(cardInfoElement) {
+                cardInfoElement.style.color = playerSecondary; 
+            });
+
+            // Find the triangle element within the card container and set its border color
+            var triangleElement = cardContainer.querySelector('.triangle');
+            triangleElement.style.borderColor = 'transparent ' + playerPrimary + ' transparent';
+
+            cardGrid.appendChild(cardContainer);
+        }
+    }
+        
+    displayCards({{.TotalPlayers}});
+
+    function displayTeam(t) {
+        var teamContainer = document.getElementById('team_container');
+        var teamListContainer = document.querySelector('.team_list_container');
+        var teamSearchBar = document.querySelector('.team_search_bar');
+        var menuButton = document.querySelector('.menu_button');
+        var menuBlock = document.querySelectorAll('.menu_block');
+        var dashboardText = document.querySelector('.dashboard_text');
+        var navBar = document.querySelector('.nav_bar');
+        var username = document.querySelector('.username');
+        var profilePhoto= document.querySelector('.profile_photo');
+        var filterDropdownContainer= document.querySelector('.filter_dropdown_container');
+        var filterTitle= document.querySelector('.filter_title');
+        var dropdownButton= document.querySelector('.dropdown_button');
+        var dropdownContent = document.getElementById("dropdown_content");
+        var playerSearchBarContainer= document.querySelector('.player_search_bar_container');
+        var playerSearchBar= document.querySelector('.player_search_bar');
+        var dashboardstyleElem = document.head.appendChild(document.createElement("style"));
+        
+
+        for (var i = 0; i < t; i++) {
+            var teamName = {{.TeamNames}}[i];
+            teamName = teamName.toUpperCase();
+            var teamLogoSrc = {{.TeamLogo}}[i]; 
+
+            var teamPrimary = {{.TeamPrimary}}[i];
+            var teamSecondary = {{.TeamSecondary}}[i];
+            
+            var button = document.createElement('button');
+            button.classList.add('team_item_button', 'bolder');
+            button.style.backgroundColor = teamPrimary; 
+            button.style.color = teamSecondary; 
+        
+            
+            var image = document.createElement('img');
+            image.classList.add('team_list_logo');
+            image.src = teamLogoSrc;
+            
+            var teamNameElement = document.createElement('h4');
+            teamNameElement.textContent = teamName;
+            
+            button.appendChild(image);
+            button.appendChild(teamNameElement);
+
+            button.addEventListener('click', (function(primary, secondary) {
+                return function() {
+                    teamListContainer.style.background = primary;
+                    teamSearchBar.style.background = secondary;
+                    teamSearchBar.style.color = primary
+                    dashboardstyleElem.innerHTML = `
+                        #dashboard:before {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            background-color: ${primary};
+                            z-index: -1; 
+                            filter: brightness(140%); 
+                        }
+                    `;
+                    menuButton.style.background = secondary;
+                    menuBlock.forEach(function(menublock) {
+                        menublock.style.background = primary
+                    });
+                    // menuBlock.style.background = primary
+                    dashboardText.style.color = secondary
+                    dashboardText.innerHTML = `<h2>${teamName}</h2>`;
+                    navBar.style.background = primary
+                    username.style.color = secondary
+                    profilePhoto.style.border = '3px solid ' + secondary + ''; 
+                    filterDropdownContainer.style.background = primary
+                    filterTitle.style.color = secondary
+                    dropdownButton.style.background = secondary
+                    dropdownButton.style.color = primary
+                    // Get all anchor elements inside the dropdown content
+                    var links = dropdownContent.getElementsByTagName("a");
+
+                    // Loop through each anchor element
+                    for (var j = 0; j < links.length; j++) {
+                        // Change the color property of the anchor element
+                        links[j].style.color = primary; // Change "yourDesiredColor" to the color you want
+                        links[j].style.backgroundColor = secondary;
+                    }
+                    playerSearchBarContainer.style.background = primary
+                    playerSearchBar.style.background = secondary
+                    playerSearchBar.style.color = primary
+                };
+            })(teamPrimary, teamSecondary));
+            
+            const listItem = document.createElement('li');
+            listItem.classList.add('team_item');
+            listItem.appendChild(button);
+            
+            teamContainer.appendChild(listItem);
+        }
+    }
+    displayTeam({{.TotalTeam}});
+
+
+  </script>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="/static/css/loginstyles.css" rel="stylesheet">
+</head>
+<body>
+    <div class = "login_section">
+        <div class = "login_container">
+
+                <div class="login">
+                    <div class="website_logo">
+                        <img src="/static/images/nbalogo.png" class="website_logo_img"></img>
+                    </div>
+                    <div class="website_input">
+                        <!-- <form method="POST" class="form_container" action="/nba_dashboard"> -->
+                        <form method="POST" class="form_container" action="/login/">
+                            <div class="title"><h1>NBA Players Dashboard</h1></div>
+                            <input placeholder="Username" class ="inputs" id="username" name="username" type="text" value="{{.Username}}">
+                            <input placeholder="Password" class ="inputs" id="password" name="password" type="password" value="{{.Password}}">
+                            <button class = "login_btn" type="submit">Login</button>
+                            <div class="errorhandler">
+                                {{if .ErrExists}}
+                                <p>
+                                    <b style="color:red">{{.Err}}</b>
+                                </p>
+                                {{end}}
+                            </div>
+                        </form>                
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
