@@ -50,16 +50,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			cookie.SameSite = http.SameSiteStrictMode
 			http.SetCookie(w, cookie)
 
+			//if valid proceed to dashboard
 			http.Redirect(w, r, "/nba_dashboard/", http.StatusSeeOther)
-
-			// if r.URL.Query().Get("next") == "" {
-			// 	http.Redirect(w, r, strings.TrimSuffix(r.RequestURI, "logout"), http.StatusSeeOther)
-			// 	return
-			// }
-
-			// // Redirect to the page depending on the value of the next.
-			// http.Redirect(w, r, r.URL.Query().Get("next"), http.StatusSeeOther)
-			// return
 		}
 	}
 

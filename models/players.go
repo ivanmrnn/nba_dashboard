@@ -12,7 +12,7 @@ type Players struct {
 	Photo string `uadmin:"image"`
 	Team Team
 	TeamID uint
-	NameTeam string
+	NameTeam string `uadmin:"read_only"`
 	PPG  float64
 	RPG float64
 	APG float64
@@ -24,9 +24,9 @@ type Players struct {
 	Height float64
 	Weight int
 	Country string
-	Logo string `uadmin:"image"`
-	Primary string
-	Secondary string
+	Logo string `uadmin:"image;read_only"`
+	Primary string `uadmin:"read_only"`
+	Secondary string`uadmin:"read_only"`
 }
 
 func (p *Players) Save() {
@@ -40,6 +40,8 @@ func (p *Players) Save() {
 	uadmin.Save(p)
 }
 
+
+//calculate age from birthday
 func ageCalculator (birthday time.Time) int {
 	currentDate := time.Now()
 	age := currentDate.Year() - birthday.Year()

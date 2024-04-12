@@ -12,14 +12,15 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 	r.URL.Path = strings.TrimPrefix(r.URL.Path, "/")
 	path := strings.TrimSuffix(r.URL.Path, "/")
 
+	//check if user is authenticated, if not session=nil
 	session := uadmin.IsAuthenticated(r)
 
-
-
+	//url path
 	switch path {
 	case "login":
 		LoginHandler(w, r)
 	case "nba_dashboard":
+		//if /nba_dashboard is entered and no session, to be directed to login
 		if session == nil {
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		} else {

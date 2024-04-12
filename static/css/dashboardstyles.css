@@ -11,6 +11,7 @@
 
 body {
     display: flex;
+    background-color: #133D8C;
 }
 
 h1 {
@@ -49,16 +50,16 @@ button {
 /* menu bar */
 
 .sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 2; /* Stay on top */
-    top: 0; /* Stay at the top */
+    height: 100%; 
+    width: 0; 
+    position: fixed; 
+    z-index: 2; 
+    top: 0; 
     left: 0;
-    background-color: #171717; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
+    background-color: #171717; 
+    overflow-x: hidden; 
     overflow-y: hidden;
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    transition: 0.5s; 
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -222,9 +223,6 @@ button {
     overflow-y:scroll;
 }
 
-.team_list::-webkit-scrollbar {
-    display: none;
-}
 
 .team_container {
     list-style-type: none;
@@ -238,6 +236,7 @@ button {
 
 .team_list_logo {
     width: 50px;
+    height: 50px;
     padding: 0, 8px;
 }
 
@@ -265,8 +264,10 @@ button {
 #dashboard {
     width: 100%;
     position: relative;
-    min-height: 100vh; 
+    height: 100vh; 
 }
+
+
 
 #dashboard::before {
     content: "";
@@ -403,79 +404,6 @@ button {
     z-index: 1;
 }
 
-
-.filter_dropdown_container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 70px;
-    width: 270px;
-    background: #133D8C;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.filter_title {
-    width: 250px;
-    color: white;
-}
-
-.filter_dropdown {
-    text-align: center;
-    width: 250px;
-    height: 30px;
-}
-
-.dropdown_button {
-    height: 30px;
-    width: 250px;
-    background-color: white;
-    color: #133D8C;
-    cursor: pointer;
-}
-
-.dropdown_button:hover {
-    filter: brightness(90%);
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown_content {
-    display: none;
-    position: absolute;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    margin-top: 4px;
-}
-
-/* Links inside the dropdown */
-.dropdown_content a {
-    height: 40px;
-    width: 250px;
-    padding: 8px;
-    color: #133D8C;
-    background-color: white;
-    text-decoration: none;
-    display: block;
-    border-bottom: 2px solid #133D8C;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown_content a:hover {
-    filter: brightness(90%);
-}
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.filter_show {
-    display:block;
-}
-
 .player_search_bar_container {
     display: flex;
     flex-direction: column;
@@ -509,6 +437,12 @@ button {
     gap: 8px;
     justify-items: center;
     position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.card_grid::-webkit-scrollbar {
+    display: none;
 }
 
 .card_container {

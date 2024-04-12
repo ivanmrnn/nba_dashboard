@@ -7,7 +7,7 @@ import (
 type Team struct {
 	uadmin.Model
 	Name      string
-	Team      string
+	Team      string `uadmin:"read_only"`
 	Logo      string `uadmin:"image"`
 	Division  string
 	Primary   string
