@@ -54,7 +54,7 @@
                     </div>
                     <div class="all_container">
                         <div class="division_wide">
-                            <button class="division_button"><h3>ALL</h3></button>
+                            <button class="division_button"><h3>All</h3></button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                         <div class="menu_block"></div>
                     </button>
                 </div>
-                <div class="dashboard_text"><h2>Los Angeles Lakers</h2></div>
+                <div class="dashboard_text"><h2>NBA Dashboard</h2></div>
             </div>
             
             <div class="profile">
@@ -133,8 +133,19 @@
     function filterTeamsByDivision(division) {
         var teamItems = document.querySelectorAll('.team_item');
         teamItems.forEach(function(item) {
-            var teamName = item.querySelector('.team_item_button h4').textContent.toUpperCase();
-            if (division === "ALL" || teamName.includes(division.toUpperCase())) {
+            var teamListName = item.querySelector('.team_item_button h4').textContent.toLowerCase(); 
+            var found = false; 
+            for (var i = 0; i < {{.TotalTeam}}; i++) {
+                var teamName = {{.TeamNames}}[i].toLowerCase(); 
+                var teamDivision = {{.TeamDivision}}[i].toLowerCase(); 
+                if (division === "All" || teamDivision === division.toLowerCase()) { 
+                    if (teamListName === teamName) {
+                        found = true;
+                        break; // No need to continue checking once a match is found
+                    }
+                }
+            }
+            if (found) {
                 item.style.display = 'block';
             } else {
                 item.style.display = 'none';
@@ -152,12 +163,10 @@
 
     function displayCards(c) {
         var cardGrid = document.getElementById('cardGrid');
-        
         for (var i = 0; i < c; i++) {
-            
-
             var playerName = {{.PlayerNames}}[i];
             var playerPhoto = {{.PlayerPhoto}}[i];
+            var playerTeam = {{.PlayerTeam}}[i];
             var playerPPG = {{.PlayerPPG}}[i];
             var playerRPG = {{.PlayerRPG}}[i];
             var playerAPG = {{.PlayerAPG}}[i];
@@ -310,6 +319,7 @@
         
 
         for (var i = 0; i < t; i++) {
+        (function() {
             var teamName = {{.TeamNames}}[i];
             teamName = teamName.toUpperCase();
             var teamLogoSrc = {{.TeamLogo}}[i]; 
@@ -333,7 +343,7 @@
             button.appendChild(image);
             button.appendChild(teamNameElement);
 
-            button.addEventListener('click', (function(primary, secondary) {
+            button.addEventListener('click', (function(primary, secondary, name) {
                 return function() {
                     teamListContainer.style.background = primary;
                     teamSearchBar.style.background = secondary;
@@ -356,7 +366,7 @@
                     });
                     // menuBlock.style.background = primary
                     dashboardText.style.color = secondary
-                    dashboardText.innerHTML = `<h2>${teamName}</h2>`;
+                    dashboardText.innerHTML = `<h2>${name}</h2>`;
                     navBar.style.background = primary
                     username.style.color = secondary
                     profilePhoto.style.border = '3px solid ' + secondary + ''; 
@@ -377,16 +387,39 @@
                     playerSearchBar.style.background = secondary
                     playerSearchBar.style.color = primary
                 };
-            })(teamPrimary, teamSecondary));
+            })(teamPrimary, teamSecondary, teamName));
             
             const listItem = document.createElement('li');
             listItem.classList.add('team_item');
             listItem.appendChild(button);
             
             teamContainer.appendChild(listItem);
-        }
+        })();
+    }
+
     }
     displayTeam({{.TotalTeam}});
+
+    var playerSearchInput = document.querySelector('.player_search_bar');
+    playerSearchInput.addEventListener('input', function() {
+        // Capture the value of the search input
+        var searchTerm = playerSearchInput.value.trim().toLowerCase();
+
+        // Get all player cards
+        var playerCards = document.querySelectorAll('.card_container');
+
+        // Loop through each player card and check if it matches the search term
+        playerCards.forEach(function(card) {
+            var playerName = card.querySelector('.card_name h4').textContent.toLowerCase();
+            if (playerName.includes(searchTerm)) {
+                // If the player name includes the search term, show the card
+                card.style.display = 'block';
+            } else {
+                // If not, hide the card
+                card.style.display = 'none';
+            }
+        });
+    });
 
 
   </script>

@@ -71,6 +71,13 @@
       "err_msg": {},
       "Choices": {}
     },
+    "NameTeam": {
+      "display_name": "Name Team",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
     "Number": {
       "display_name": "Number",
       "help": "",

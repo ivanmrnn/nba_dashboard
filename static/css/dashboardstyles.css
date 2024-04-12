@@ -55,10 +55,11 @@ button {
     z-index: 2; /* Stay on top */
     top: 0; /* Stay at the top */
     left: 0;
-    background-color: #111; /* Black*/
+    background-color: #171717; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     overflow-y: hidden;
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .sidenav .closebtn {
@@ -81,7 +82,7 @@ button {
     flex-direction: column;
     height: 100vh;
     width: 360px;
-    background: #01438C;
+    background: #133D8C;
 }
 
 .title_section {
@@ -199,9 +200,10 @@ button {
     gap:1rem;
     width: 330px;
     height: 530px;
-    background: #FDB927;
+    background: #efefef;
     padding: 1rem;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border: 1px solid black;
 }
 
 .team_search_bar {
@@ -210,24 +212,18 @@ button {
     border: none;
     border-radius: 5px;
     padding: 0 8px;
-    background: #552583;
+    background: #bfbfbf;
 }
-
-.team_search_bar::placeholder {
-    color: white;
-}
-
-.team_search_bar:focus {
-    outline: none;
-    color: white;
-}
-
 
 .team_list {
     height: 435px;
     width: 100%;
-    color: white;
+    color: #efefef;
     overflow-y:scroll;
+}
+
+.team_list::-webkit-scrollbar {
+    display: none;
 }
 
 .team_container {
@@ -251,8 +247,8 @@ button {
     gap: 1rem;
     width: 100%;
     height: 60px;;
-    background-color: #552583;
-    color: #FDB927;
+    background-color: white;
+    color: #BA0C2F;
     padding: 0 16px;
 }
 
@@ -279,9 +275,9 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #FDB927;
+    background-color: #133D8C;
     z-index: -1; 
-    filter: brightness(120%); 
+    filter: brightness(140%); 
 }
 
 .nav_bar {
@@ -289,8 +285,8 @@ button {
     justify-content: space-between;
     width: 100%;
     height: 60px;
-    color: #552583;
-    background-color: #FDB927;
+    color: #D71F36;
+    background-color: #133D8C;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     position: fixed;
     z-index: 1;
@@ -316,7 +312,7 @@ button {
     gap: 5px;
     width: 60px;
     height: 100%;
-    background: #552583;
+    background: #efefef;
     padding: 0.3em 0.8em;
     cursor: pointer;
 }
@@ -329,9 +325,7 @@ button {
 .menu_block {
     width: 35px;
     height: 5px;
-    background-color: black;
-
-    background: #FDB927;
+    background: #133D8C;
 }
 
 
@@ -339,7 +333,7 @@ button {
     width: 600px;
     height: 100%;
     padding: 6px 1rem;
-    color: #552583;
+    color: white;
 }
 
 .dashboard_text h2{
@@ -364,13 +358,14 @@ button {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 3px solid #552583;
+    border: 3px solid white;
 }
 
 .username {
     height: 100%;
     padding: 6px 1rem;
     text-align: end;
+    color: white;
 }
 
 .username h2{
@@ -416,13 +411,13 @@ button {
     align-items: center;
     height: 70px;
     width: 270px;
-    background: #FDB927;
+    background: #133D8C;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .filter_title {
     width: 250px;
-    color: #552583;
+    color: white;
 }
 
 .filter_dropdown {
@@ -434,8 +429,8 @@ button {
 .dropdown_button {
     height: 30px;
     width: 250px;
-    background-color: #552583;
-    color: #FDB927;
+    background-color: white;
+    color: #133D8C;
     cursor: pointer;
 }
 
@@ -464,11 +459,11 @@ button {
     height: 40px;
     width: 250px;
     padding: 8px;
-    color: #FDB927;
-    background-color: #552583;
+    color: #133D8C;
+    background-color: white;
     text-decoration: none;
     display: block;
-    border-bottom: 2px solid #171717;
+    border-bottom: 2px solid #133D8C;
 }
 
 /* Change color of dropdown links on hover */
@@ -488,7 +483,7 @@ button {
     align-items: center;
     height: 70px;
     width: 1000px;
-    background: #FDB927;
+    background: #133D8C;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -498,17 +493,9 @@ button {
     border: none;
     border-radius: 5px;
     padding: 0 8px;
-    background: #552583;
+    background: white;
 }
 
-.player_search_bar::placeholder {
-    color: white;
-}
-
-.player_search_bar:focus {
-    outline: none;
-    color: white;
-}
 
 .card_list_container {
     width: 100%;
@@ -608,10 +595,10 @@ transition: transform 0.5s;
 .card_name {
     height: 30px;
     width: 170px;
-    color: #552583;
+    color: white;
     padding: 6px;
     position: relative;
-    background-color: #FDB927;
+    background-color: black;
 }
 
 .card_name h4 {

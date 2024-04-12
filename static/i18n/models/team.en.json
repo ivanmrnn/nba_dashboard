@@ -42,6 +42,13 @@
       "pattern_msg": "",
       "err_msg": {},
       "Choices": {}
+    },
+    "Team": {
+      "display_name": "Team",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
     }
   }
 }

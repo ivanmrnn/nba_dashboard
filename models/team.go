@@ -7,6 +7,7 @@ import (
 type Team struct {
 	uadmin.Model
 	Name      string
+	Team      string
 	Logo      string `uadmin:"image"`
 	Division  string
 	Primary   string
@@ -14,5 +15,6 @@ type Team struct {
 }
 
 func (p *Team) Save() {
+	p.Team = p.Name
 	uadmin.Save(p)
 }

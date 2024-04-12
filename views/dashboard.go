@@ -20,6 +20,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request, session *uadmin.Se
 
 		PlayerNames   []string 
 		PlayerPhoto []string `uadmin:"image"`
+		PlayerTeam []string
 		PlayerPPG  []float64
 		PlayerRPG []float64
 		PlayerAPG []float64
@@ -56,6 +57,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request, session *uadmin.Se
 	for _, player := range players {
         c.PlayerNames = append(c.PlayerNames, player.Name)
 		c.PlayerPhoto = append(c.PlayerPhoto, player.Photo)
+		c.PlayerTeam = append(c.PlayerTeam, player.NameTeam)
 		c.PlayerPPG = append(c.PlayerPPG, player.PPG)
 		c.PlayerRPG = append(c.PlayerRPG, player.RPG)
 		c.PlayerAPG = append(c.PlayerAPG, player.APG)
@@ -84,7 +86,6 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request, session *uadmin.Se
 		c.TeamPrimary = append(c.TeamPrimary, team.Primary)
 		c.TeamSecondary = append(c.TeamSecondary, team.Secondary)
 	}
-
 
 	uadmin.RenderHTML(w, r, "templates/dashboard.html", c)
 }

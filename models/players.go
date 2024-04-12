@@ -12,6 +12,7 @@ type Players struct {
 	Photo string `uadmin:"image"`
 	Team Team
 	TeamID uint
+	NameTeam string
 	PPG  float64
 	RPG float64
 	APG float64
@@ -35,6 +36,7 @@ func (p *Players) Save() {
 	p.Logo = p.Team.Logo
 	p.Primary = p.Team.Primary
 	p.Secondary = p.Team.Secondary
+	p.NameTeam = p.Team.Team
 	uadmin.Save(p)
 }
 

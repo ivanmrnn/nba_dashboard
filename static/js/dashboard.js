@@ -26,5 +26,4 @@ window.onclick = function(event) {
 const team_container = document.getElementById('team_container');
 
 
-appendData(newData);
 
