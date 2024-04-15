@@ -126,7 +126,7 @@
                 if (division === "All" || teamDivision === division.toLowerCase()) {
                     if (teamListName === teamName) {
                         found = true;
-                        break; // No need to continue checking once a match is found
+                        break; 
                     }
                 }
             }
@@ -138,37 +138,6 @@
             }
         });
     }
-
-    // function filterTeamsByDivision(division) {
-    //     var teamItems = document.querySelectorAll('.team_item');
-        
-    //     teamItems.forEach(function(item) {
-    //         var teamListName = item.querySelector('.team_item_button h4').textContent.toLowerCase(); 
-    //         var found = false; 
-            
-    //         for (var i = 0; i < {{.TotalTeam}}; i++) {
-    //             var teamName = {{.TeamNames}}[i].toLowerCase(); 
-    //             var teamDivision = {{.TeamDivision}}[i].toLowerCase(); 
-    //             if (division === "All" || teamDivision === division.toLowerCase()) {
-                    
-    //                 if (teamListName === teamName) {
-    //                     found = true;
-    //                     break; // No need to continue checking once a match is found
-    //                 }
-    //                 // displayCards({{.TotalPlayers}}, "all");
-    //                 // break
-    //             }
-    //         }
-    //         if (found) {
-    //             item.style.display = 'block';
-    //         } else {
-    //             item.style.display = 'none';
-    //         }
-    //     });
-    // }
-
-    
-
 
     document.querySelectorAll('.division_button').forEach(function(button) {
         button.addEventListener('click', function() {
@@ -199,7 +168,7 @@
             var playerPrimary = {{.PlayerPrimary}}[i];
             var playerSecondary = {{.PlayerSecondary}}[i];
 
-            if (playerTeam === currentTeam || currentTeam === "all") {
+            if (playerTeam === currentTeam || currentTeam === "nba dashboard") {
                 // Create a random card structure
                 var cardStructure = `
                     <div class="card">
@@ -285,11 +254,12 @@
                     </div>
                 `;
 
+                //creates the card
                 var cardContainer = document.createElement('div');
                 cardContainer.classList.add('card_container');
                 cardContainer.innerHTML = cardStructure;
 
-                // Set background color dynamically for each card
+                //dynamically changes the card based on team
                 var cardNameElement = cardContainer.querySelector('.card_name');    
                 cardNameElement.style.backgroundColor = playerPrimary;
                 cardNameElement.style.color = playerSecondary;
@@ -308,7 +278,6 @@
                     cardInfoElement.style.color = playerSecondary; 
                 });
 
-                // Find the triangle element within the card container and set its border color
                 var triangleElement = cardContainer.querySelector('.triangle');
                 triangleElement.style.borderColor = 'transparent ' + playerPrimary + ' transparent';
 
@@ -317,7 +286,7 @@
         }
     }
         
-    displayCards({{.TotalPlayers}}, "all" );
+    displayCards({{.TotalPlayers}}, "nba dashboard" );
 
     function displayTeam(t) {
         var teamContainer = document.getElementById('team_container');
@@ -335,77 +304,77 @@
         
 
         for (var i = 0; i < t; i++) {
-        (function() {
-            var teamName = {{.TeamNames}}[i];
-            teamName = teamName.toUpperCase();
-            var teamLogoSrc = {{.TeamLogo}}[i]; 
+            (function() {
+                var teamName = {{.TeamNames}}[i];
+                teamName = teamName.toUpperCase();
+                var teamLogoSrc = {{.TeamLogo}}[i]; 
+                var teamPrimary = {{.TeamPrimary}}[i];
+                var teamSecondary = {{.TeamSecondary}}[i];
 
-            var teamPrimary = {{.TeamPrimary}}[i];
-            var teamSecondary = {{.TeamSecondary}}[i];
+                //creates the team button
+                var button = document.createElement('button');
+                button.classList.add('team_item_button', 'bolder');
+                button.style.backgroundColor = teamPrimary; 
+                button.style.color = teamSecondary; 
             
-            var button = document.createElement('button');
-            button.classList.add('team_item_button', 'bolder');
-            button.style.backgroundColor = teamPrimary; 
-            button.style.color = teamSecondary; 
-        
-            
-            var image = document.createElement('img');
-            image.classList.add('team_list_logo');
-            image.src = teamLogoSrc;
-            
-            var teamNameElement = document.createElement('h4');
-            teamNameElement.textContent = teamName;
-            
-            button.appendChild(image);
-            button.appendChild(teamNameElement);
+                var image = document.createElement('img');
+                image.classList.add('team_list_logo');
+                image.src = teamLogoSrc;
+                
+                var teamNameElement = document.createElement('h4');
+                teamNameElement.textContent = teamName;
+                
+                button.appendChild(image);
+                button.appendChild(teamNameElement);
 
-            button.addEventListener('click', (function(primary, secondary, name) {
-                return function() {
-                    cardGrid.innerHTML = '';
-                    teamListContainer.style.background = primary;
-                    teamSearchBar.style.background = secondary;
-                    teamSearchBar.style.color = primary;
-                    dashboardstyleElem.innerHTML = `
-                        #dashboard:before {
-                            content: "";
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            background-color: ${primary};
-                            z-index: -1;
-                            filter: brightness(140%);
-                        }
-                    `;
-                    menuButton.style.background = secondary;
-                    menuBlock.forEach(function(menublock) {
-                        menublock.style.background = primary;
-                    });
-                    dashboardText.style.color = secondary;
-                    dashboardText.innerHTML = `<h2>${name}</h2>`;
-                    navBar.style.background = primary;
-                    username.style.color = secondary;
-                    profilePhoto.style.border = '3px solid ' + secondary + '';
-                    playerSearchBarContainer.style.background = primary;
-                    playerSearchBar.style.background = secondary;
-                    playerSearchBar.style.color = primary;
+                //changes the card list depending on the team button clicked
+                button.addEventListener('click', (function(primary, secondary, name) {
+                    return function() {
+                        cardGrid.innerHTML = '';
+                        teamListContainer.style.background = primary;
+                        teamSearchBar.style.background = secondary;
+                        teamSearchBar.style.color = primary;
+                        dashboardstyleElem.innerHTML = `
+                            #dashboard:before {
+                                content: "";
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                background-color: ${primary};
+                                z-index: -1;
+                                filter: brightness(140%);
+                            }
+                        `;
+                        menuButton.style.background = secondary;
+                        menuBlock.forEach(function(menublock) {
+                            menublock.style.background = primary;
+                        });
+                        dashboardText.style.color = secondary;
+                        dashboardText.innerHTML = `<h2>${name}</h2>`;
+                        navBar.style.background = primary;
+                        username.style.color = secondary;
+                        profilePhoto.style.border = '3px solid ' + secondary + '';
+                        playerSearchBarContainer.style.background = primary;
+                        playerSearchBar.style.background = secondary;
+                        playerSearchBar.style.color = primary;
 
-                    var newCurrentTeam = name.toLowerCase(); // Update current team
-                    displayCards({{.TotalPlayers}}, newCurrentTeam);
-                };
-            })(teamPrimary, teamSecondary, teamName));
-            
-            const listItem = document.createElement('li');
-            listItem.classList.add('team_item');
-            listItem.appendChild(button);
-            
-            teamContainer.appendChild(listItem);
-        })();
-    }
-
+                        var newCurrentTeam = name.toLowerCase(); // Update current team
+                        displayCards({{.TotalPlayers}}, newCurrentTeam);
+                    };
+                })(teamPrimary, teamSecondary, teamName));
+                
+                const listItem = document.createElement('li');
+                listItem.classList.add('team_item');
+                listItem.appendChild(button);
+                
+                teamContainer.appendChild(listItem);
+            })();
+        }
     }
     displayTeam({{.TotalTeam}});
 
+    //player search
     var playerSearchInput = document.querySelector('.player_search_bar');
     playerSearchInput.addEventListener('input', function() {
         // Capture the value of the search input
@@ -426,6 +395,8 @@
             }
         });
     });
+
+    //team search
     var teamSearchInput = document.querySelector('.team_search_bar');
     teamSearchInput.addEventListener('input', function() {
         // Capture the value of the search input
@@ -446,7 +417,5 @@
             }
         });
     });
-
-
   </script>
 </html>
