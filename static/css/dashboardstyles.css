@@ -264,7 +264,7 @@ button {
 #dashboard {
     width: 100%;
     position: relative;
-    height: 100vh; 
+    min-height: 100vh; 
 }
 
 
@@ -437,7 +437,7 @@ button {
     gap: 8px;
     justify-items: center;
     position: relative;
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 
