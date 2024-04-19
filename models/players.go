@@ -29,6 +29,7 @@ type Players struct {
 	Secondary string`uadmin:"read_only"`
 }
 
+
 func (p *Players) Save() {
 	p.Age = ageCalculator(p.Birthdate)
 	p.BirthdateFormatted = p.Birthdate.Format("01/02/06")

@@ -374,47 +374,130 @@
     }
     displayTeam({{.TotalTeam}});
 
-    //player search
+
+
     var playerSearchInput = document.querySelector('.player_search_bar');
     playerSearchInput.addEventListener('input', function() {
-        // Capture the value of the search input
-        var searchTerm = playerSearchInput.value.trim().toLowerCase();
+    
+        var searchTerm = playerSearchInput.value.trim(); // Get the raw search term
+        console.log('Raw Search Input:', searchTerm);
 
-        // Get all player cards
-        var playerCards = document.querySelectorAll('.card_container');
+        // Capitalize the first letter of each word and convert the rest to lowercase
+        searchTerm = searchTerm.replace(/\b\w/g, function(char) {
+            return char.toUpperCase();
+        });
+        console.log('Formatted Search Input:', searchTerm);
 
-        // Loop through each player card and check if it matches the search term
-        playerCards.forEach(function(card) {
-            var playerName = card.querySelector('.card_name h4').textContent.toLowerCase();
-            if (playerName.includes(searchTerm)) {
-                // If the player name includes the search term, show the card
-                card.style.display = 'block';
+        // Make an API call to search for players
+        var apiUrl = 'http://0.0.0.0:8080/admin/api/d/players/read/?name__contains=' + searchTerm;
+
+        fetch(apiUrl) 
+        .then(response => response.json()) 
+        .then(data => {
+            if (data.status === 'ok' && data.result.length > 0) {
+                var playerIds = data.result.map(player => player.ID);
+                console.log(playerIds);
+
+                // Fetch names associated with the found IDs
+                fetchNames(playerIds);
             } else {
-                // If not, hide the card
-                card.style.display = 'none';
+                // If no players found, hide all cards
+                var playerCards = document.querySelectorAll('.card_container');
+                playerCards.forEach(function(card) {
+                    card.style.display = 'none';
+                });
+                console.log("No player found with the given search term.");
             }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
         });
     });
 
-    //team search
+    function fetchNames(playerIds) {
+        // Make an API call to fetch names associated with the IDs
+        var apiUrl = 'http://0.0.0.0:8080/admin/api/d/players/read/?id__in=' + playerIds.join(',');
+
+        fetch(apiUrl) // Make a GET request to the API endpoint
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            // Check if the response status is 'ok' and there are results
+            if (data.status === 'ok' && data.result.length > 0) {
+                // Get the names of players returned by the API
+                var playersFound = data.result.map(player => player.Name.toLowerCase());
+                console.log('Players Found:', playersFound);
+
+                // Get all player cards
+                var playerCards = document.querySelectorAll('.card_container');
+
+                // Loop through each player card and check if its name is among the found players
+                playerCards.forEach(function(card) {
+                    var cardPlayerName = card.querySelector('.card_name h4').textContent.toLowerCase();
+                    if (playersFound.includes(cardPlayerName)) {
+                        // If the player's name is among the found players, show the card
+                        card.style.display = 'block';
+                    } else {
+                        // If not, hide the card
+                        card.style.display = 'none';
+                    }
+                });
+            } else {
+                // If no players found, hide all cards
+                var playerCards = document.querySelectorAll('.card_container');
+                playerCards.forEach(function(card) {
+                    card.style.display = 'none';
+                });
+                console.log("No player found with the given search term.");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+
     var teamSearchInput = document.querySelector('.team_search_bar');
     teamSearchInput.addEventListener('input', function() {
         // Capture the value of the search input
         var searchTerm = teamSearchInput.value.trim().toLowerCase();
+        console.log('Search Input:', searchTerm);
 
-        // Get all team items
-        var teamItems = document.querySelectorAll('.team_item_button');
+        // Make an API call to search for teams
+        var apiUrl = 'http://0.0.0.0:8080/admin/api/d/team/read/?name__contains=' + searchTerm;
 
-        // Loop through each team item and check if it matches the search term
-        teamItems.forEach(function(item) {
-            var teamName = item.querySelector('h4').textContent.toLowerCase();
-            if (teamName.includes(searchTerm)) {
-                // If the team name includes the search term, show the item
-                item.parentElement.style.display = 'block';
+        fetch(apiUrl) // Make a GET request to the API endpoint
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            // Check if the response status is 'ok' and there are results
+            if (data.status === 'ok' && data.result.length > 0) {
+                // Get the names of teams returned by the API
+                var teamsFound = data.result.map(team => team.Name.toLowerCase());
+                console.log('Teams Found:', teamsFound);
+
+                // Get all team items
+                var teamItems = document.querySelectorAll('.team_item_button');
+
+                // Loop through each team item and check if its name is among the found teams
+                teamItems.forEach(function(item) {
+                    var teamName = item.querySelector('h4').textContent.toLowerCase();
+                    if (teamsFound.includes(teamName)) {
+                        // If the team's name is among the found teams, show the item
+                        item.parentElement.style.display = 'block';
+                    } else {
+                        // If not, hide the item
+                        item.parentElement.style.display = 'none';
+                    }
+                });
             } else {
-                // If not, hide the item
-                item.parentElement.style.display = 'none';
+                // If no teams found, hide all items
+                var teamItems = document.querySelectorAll('.team_item_button');
+                teamItems.forEach(function(item) {
+                    item.parentElement.style.display = 'none';
+                });
+                console.log("No team found with the given search term.");
             }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
         });
     });
   </script>

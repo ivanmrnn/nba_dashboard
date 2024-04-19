@@ -16,7 +16,7 @@ func main() {
 	)
 	
 	uadmin.RootURL = "/admin/"
-	uadmin.SiteName = "NBA Dashboard"
+	uadmin.SiteName = "NBA Players"
 
 	http.HandleFunc("/", uadmin.Handler(views.MainHandler))
 
